@@ -1,4 +1,6 @@
-int myArray[7] = {0, 1, 2, 3, 4, 5, 6} ;
+int myArray[7] = {
+  0, 1, 2, 3, 4, 5, 6} 
+;
 void setup(){
   Serial.begin(9600);
 }
@@ -12,11 +14,14 @@ void sendData (int dataArray[], int lenght) {
     if(n==0){
       Serial.print(dataArray[n]);
       Serial.print(" => ");
-    } else if (n == (lenght -1)){
+    } 
+    else if (n == (lenght -1)){
       Serial.println(dataArray[n]);
-    } else {
+    } 
+    else {
       Serial.print(dataArray[n]);
       Serial.print(" => ");
     }
   }
 }
+
