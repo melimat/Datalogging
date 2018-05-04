@@ -25,7 +25,6 @@ def logFunction():
         if data:
             logfile.write(data)
             print (data)
-
 logFunction()
 
 
