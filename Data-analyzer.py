@@ -2,15 +2,16 @@
 import matplotlib.pyplot as plt
 
 #inputFilePath = str(input("Here type (paste) your path to source of data (file): "))
-inputFilePath = "/home/melimat/Dev/Python/Realtime_datalogging/Tusla-Slama.txt"
+inputFilePath = "/home/melimat/Downloads/Trefny.txt"
 
 labelLine = 6
 xLabelText = "Time"
 yLabelText = "Concentration of CO2"
 graphLabel = "Graph of concentration of CO2"
 dataStartLine = 8
+splitter = "\t"
 
-def plotFunction(path, xLabelText, yLabelText, graphLabel,  dataStartLine, labelLine):
+def plotFunction(path, xLabelText, yLabelText, graphLabel,  dataStartLine, labelLine, splitter):
     numberOfLine = int()
     xArray = []
     yArray = []
@@ -20,7 +21,7 @@ def plotFunction(path, xLabelText, yLabelText, graphLabel,  dataStartLine, label
         print ((numberOfLine, ".", "Line: ", eachLine))
         if (numberOfLine == labelLine):
             line = eachLine
-            labelArray = line.split("\t")
+            labelArray = line.split(splitter)
             plt.xlabel(xLabelText + " [" + labelArray[0] + "]")
             plt.ylabel(yLabelText + " [" + labelArray[1] + "]")
             print (line)
@@ -34,4 +35,4 @@ def plotFunction(path, xLabelText, yLabelText, graphLabel,  dataStartLine, label
     plt.title(graphLabel)
     plt.show()
 
-plotFunction(inputFilePath, xLabelText, yLabelText, graphLabel, dataStartLine, labelLine)
+plotFunction(inputFilePath, xLabelText, yLabelText, graphLabel, dataStartLine, labelLine,splitter)
