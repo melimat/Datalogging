@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 class configFile:
     def __init__(self, path):
@@ -15,7 +15,7 @@ class configFile:
         nameArray = []
         elementArray = []
         for eachElement in self.pathsArray:
-            elementArray = eachElement.split("\\")
+            elementArray = eachElement.split("/")
             nameArray.append(elementArray[len(elementArray) - 1])
         return(nameArray)
     def close(self):
@@ -29,29 +29,28 @@ class parser:
     def parseData(self):
         i = int(0)
         outputArray = []
+        self.unitsArray = []
         XArray = []
         YArray = []
         for eachLine in self.inputFile:
             i += 1
-            if(i >= 8):
-                print(eachLines)
+            if (i == 6):
+                print (eachLine)
                 lineArray = eachLine.split("\t")
+                self.unitsArray.append(lineArray[0])
+                self.unitsArray.append(lineArray[1])
+            elif(i >= 8):
+                print(eachLine)
+                lineArray = eachLine.split("\t")
+                print(lineArray[0])
+                print(lineArray[1])
                 XArray.append(lineArray[0])
                 YArray.append(lineArray[1])
         outputArray.append(XArray)
         outputArray.append(YArray)
         return(outputArray)
     def units(self):
-        i = int(0)
-        unitsArray = []
-        for eachLine in self.inputFile:
-            i += 1
-            if(i == 6):
-                print (eachLine)
-                lineArray = eachLine.split("\t")
-                unitsArray.append(lineArray[0])
-                unitsArray.append(lineArray[1])
-        return(unitsArray)
+        return(self.unitsArray)
     def close(self):
         self.inputFile.close()
 
@@ -61,24 +60,32 @@ class parser:
 
 
 
-pathsFile = configFile("Z:\Dev\Python\paths.txt")
+pathsFile = configFile("/home/melimat/Documents/CO2/Paths.txt")
 pathsFile.open()
 pathsArray = pathsFile.pathsToArray()
 nameArray = pathsFile.fileNames()
 pathsFile.close()
 
+
+i = int(0)
 for eachElement in pathsArray:
     dirArray = eachElement.split("\n")
     directory = dirArray[0]
     print (directory)
     parse = parser(directory)
     parse.open()
-    unitsArray = parse.units()
     plotArray = parse.parseData()
+    unitsArray = parse.units()
+    plt.xlabel(unitsArray[0])
+    plt.ylabel(unitsArray[1])
     XArray = plotArray[0]
-    YArry = plotArray[1]
-    for eachElement in XArray:
-        print (eachElement)
-    for eachElement in YArray:
-        print (eachElement)
+    YArray = plotArray[1]
+    plt.plot(XArray, YArray, label = "Source: " + nameArray[i] )
+    plt.legend()
+    #plt.show()
+    picNameArray = nameArray[i].split(".")
+    picName = picNameArray[0]
+    plt.savefig(picName)
     parse.close()
+    i += 1
+
