@@ -21,18 +21,18 @@ def plotFunction(path, xLabelText, yLabelText, graphLabel,  dataStartLine, label
         print ((numberOfLine, ".", "Line: ", eachLine))
         if (numberOfLine == labelLine):
             line = eachLine
-            #labelArray = line.split(splitter)
-            #plt.xlabel(xLabelText + " [" + labelArray[0] + "]")
-            #plt.ylabel(yLabelText + " [" + labelArray[1] + "]")
+            labelArray = line.split(splitter)
+            plt.xlabel(xLabelText + " [" + labelArray[0] + "]")
+            plt.ylabel(yLabelText + " [" + labelArray[1] + "]")
             print (line)
         if (numberOfLine >= dataStartLine):
             line = eachLine
-            #lineArray = line.split("\t")
-            #xArray.append(lineArray[0])
-            #yArray.append(lineArray[1])
+            lineArray = line.split("\t")
+            xArray.append(lineArray[0])
+            yArray.append(lineArray[1])
             print(line)
-    #plt.plot(xArray, yArray)
-    #plt.title(graphLabel)
-    #plt.show()
+    plt.plot(xArray, yArray)
+    plt.title(graphLabel)
+    plt.show()
 
 plotFunction(inputFilePath, xLabelText, yLabelText, graphLabel, dataStartLine, labelLine,splitter)
