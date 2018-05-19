@@ -29,7 +29,7 @@ class dataSet:
 		self.maxArray = []
 		self.minArray = []
 		self.maxValue = int(self.dataArray[0])
-		self.minValue = int()
+		self.minValue = int(self.dataArray[0])
 		self.maxTime = int()
 		self.minTime = int()
 
@@ -37,17 +37,14 @@ class dataSet:
 		for eachElement in self.dataArray:
 			print(("Data: " + str(eachElement) + " ; Time: " + str(self.timeArray[i])))
 
-			if (i == 1):
-				self.minValue = self.dataArray[0]
-				self.maxValue = self.dataArray[0]
-
-			if (eachElement < self.minValue):
+			if (int(eachElement) <= self.minValue):
 				self.minValue = eachElement
 				self.minTime = self.timeArray[i]
-			elif(eachElement > self.maxValue):
+			if (int(eachElement) >= self.maxValue):
 				self.maxValue = eachElement
 				self.maxTime = self.timeArray[i]
 			i += 1
+		print(("MaxValue: " + str(self.maxValue) + " ; MinValue: " + str(self.minValue)))
 
 		self.minArray.append(self.minValue)
 		self.minArray.append(self.minTime)
