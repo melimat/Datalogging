@@ -1,38 +1,76 @@
 # -*- coding: utf-8 -*-
-#import matplotlib.pyplot as plt
+import sys
 
-#inputFilePath = str(input("Here type (paste) your path to source of data (file): "))
-inputFilePath = "Z:\Dev\Python\TXT\Dostalova_Havlikova.txt"
 
-labelLine = 6
-xLabelText = "Time"
-yLabelText = "Concentration of CO2"
-graphLabel = "Graph of concentration of CO2"
-dataStartLine = 8
-splitter = "\t"
+class dataSet:
 
-def plotFunction(path, xLabelText, yLabelText, graphLabel,  dataStartLine, labelLine, splitter):
-    numberOfLine = int()
-    xArray = []
-    yArray = []
-    sourceFile = open(path, "r")
-    for eachLine in sourceFile:
-        numberOfLine += 1
-        print ((numberOfLine, ".", "Line: ", eachLine))
-        if (numberOfLine == labelLine):
-            line = eachLine
-            labelArray = line.split(splitter)
-            plt.xlabel(xLabelText + " [" + labelArray[0] + "]")
-            plt.ylabel(yLabelText + " [" + labelArray[1] + "]")
-            print (line)
-        if (numberOfLine >= dataStartLine):
-            line = eachLine
-            lineArray = line.split("\t")
-            xArray.append(lineArray[0])
-            yArray.append(lineArray[1])
-            print(line)
-    plt.plot(xArray, yArray)
-    plt.title(graphLabel)
-    plt.show()
+	def __init__(self, path, splitter):
+		self.path = path
+		self.splitter = splitter
+		self.dataFile = open(self.path)
 
-plotFunction(inputFilePath, xLabelText, yLabelText, graphLabel, dataStartLine, labelLine,splitter)
+	def readData(self):
+		i = int(0)
+		self.unitsArray = []
+		self.timeArray = []
+		self.dataArray = []
+		for eachLine in self.dataFile:
+			i += 1
+			lineArray = eachLine.split(self.splitter)
+			if(i == 6):
+				self.unitsArray.append(lineArray[0])
+				self.unitsArray.append(lineArray[1])
+			elif (i >= 8):
+				self.timeArray.append(lineArray[0])
+				self.dataArray.append(lineArray[1])
+
+	def minMax(self):
+		returnArray = []
+		self.maxArray = []
+		self.minArray = []
+		self.maxValue = int(self.dataArray[0])
+		self.minValue = int()
+		self.maxTime = int()
+		self.minTime = int()
+
+		i = int(0)
+		for eachElement in self.dataArray:
+			print(("Data: " + str(eachElement) + " ; Time: " + str(self.timeArray[i])))
+
+			if (i == 1):
+				self.minValue = self.dataArray[0]
+				self.maxValue = self.dataArray[0]
+
+			if (eachElement < self.minValue):
+				self.minValue = eachElement
+				self.minTime = self.timeArray[i]
+			elif(eachElement > self.maxValue):
+				self.maxValue = eachElement
+				self.maxTime = self.timeArray[i]
+			i += 1
+
+		self.minArray.append(self.minValue)
+		self.minArray.append(self.minTime)
+		self.maxArray.append(self.maxValue)
+		self.maxArray.append(self.maxTime)
+		returnArray.append(self.minArray)
+		returnArray.append(self.maxArray)
+		return(returnArray)
+
+	def units(self):
+		return(self.unitsArray)
+
+
+def main():
+	path = sys.argv[1]
+	print(("Path: " + path))
+	data = dataSet(path, "\t")
+	data.readData()
+	minMaxArray = data.minMax()
+	unitsArray = data.units()
+	minArray = minMaxArray[0]
+	maxArray = minMaxArray[1]
+	print(("MinValue: " + str(minArray[0]) + " " + unitsArray[1] + " ; at time: " + str(minArray[1]) + " " + unitsArray[0]))
+	print(("MaxValue: " + str(maxArray[0]) + " " + unitsArray[1] + " ; at time: " + str(maxArray[1]) + " " + unitsArray[0]))
+
+main()
