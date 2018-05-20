@@ -18,11 +18,11 @@ class dataSet:
 			i += 1
 			lineArray = eachLine.split(self.splitter)
 			if(i == 6):
-				self.unitsArray.append(lineArray[0])
-				self.unitsArray.append(lineArray[1])
+				self.unitsArray.append(str(lineArray[0]))
+				self.unitsArray.append(str(lineArray[1]))
 			elif (i >= 8):
-				self.timeArray.append(lineArray[0])
-				self.dataArray.append(lineArray[1])
+				self.timeArray.append(int(lineArray[0]))
+				self.dataArray.append(int(lineArray[1]))
 
 	def minMax(self):
 		returnArray = []
@@ -37,10 +37,10 @@ class dataSet:
 		for eachElement in self.dataArray:
 			print(("Data: " + str(eachElement) + " ; Time: " + str(self.timeArray[i])))
 
-			if (int(eachElement) <= self.minValue):
+			if (eachElement <= self.minValue):
 				self.minValue = eachElement
 				self.minTime = self.timeArray[i]
-			if (int(eachElement) >= self.maxValue):
+			if (eachElement >= self.maxValue):
 				self.maxValue = eachElement
 				self.maxTime = self.timeArray[i]
 			i += 1
@@ -57,6 +57,19 @@ class dataSet:
 	def units(self):
 		return(self.unitsArray)
 
+	def trend(self):
+		self.difference = self.dataArray[0] - (self.dataArray[len(self.dataArray) - 1])
+		return (self.difference)
+
+	def startEnd(self):
+		startEndArray = []
+		startValue = self.dataArray[0]
+		endValue = self.dataArray[len(self.dataArray) - 1]
+		startEndArray.append(startValue)
+		startEndArray.append(endValue)
+		return(startEndArray)
+
+
 
 def main():
 	path = sys.argv[1]
@@ -65,8 +78,13 @@ def main():
 	data.readData()
 	minMaxArray = data.minMax()
 	unitsArray = data.units()
+	startEndArray = data.startEnd()
 	minArray = minMaxArray[0]
 	maxArray = minMaxArray[1]
+	if (startEndArray[0] < startEndArray[1]):
+		print("Trend: rising")
+	elif (startEndArray[0] > startEndArray[1]):
+		print("Trend: falling")
 	print(("MinValue: " + str(minArray[0]) + " " + unitsArray[1] + " ; at time: " + str(minArray[1]) + " " + unitsArray[0]))
 	print(("MaxValue: " + str(maxArray[0]) + " " + unitsArray[1] + " ; at time: " + str(maxArray[1]) + " " + unitsArray[0]))
 
