@@ -1,7 +1,7 @@
 const int CO2Pin = A0;
 const int LDRPin = A1;
-const int constant1 = 1
-const int constant2 = 1
+const int constant1 = 1;
+const int constant2 = 1;
 
 void setup(){
   Serial.begin(9600);
